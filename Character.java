@@ -1,5 +1,7 @@
 // Base class for all characters in the game (players and enemies).
 // Contains shared health, defense, and turn-related behavior.
+
+// Test-comment
 public abstract class Character {
 
     // Current health points
