@@ -73,14 +73,21 @@ public class Main {
                 for (int p = 0; p < players.size() && !goblins.isEmpty(); p++) {
                     Player player = players.get(p);
                     player.startTurn();
+                    boolean canCastSpell = false;
 
                     System.out.println("\nPlayer " + player.getId() + ", choose an action:");
                     System.out.println("1) Attack");
                     System.out.println("2) Defend");
                     System.out.println("3) Use Healing Potion");
+                    if(player.getMana() >= player.getSpellCost()) {
+                        canCastSpell = true;
+                        System.out.println("4) Cast Spell Attack");
+                    }
                     System.out.print("> ");
 
                     String choice = scanner.nextLine();
+
+                    player.incrementManaValue();
 
                     switch (choice) {
                         case "1":
@@ -110,6 +117,31 @@ public class Main {
                         case "3":
                             player.usePotion();
                             break;
+                        
+                        case "4":
+                            if(!canCastSpell) {
+                                System.out.println("Invalid choice. Turn skipped.");
+                                break;
+                            }
+                            else {
+                                int spellDamage = player.spellAttack();
+                                int spellTargetIndex = (int)(Math.random() * goblins.size());
+                                Enemy spellTarget = goblins.get(spellTargetIndex);
+
+                                spellTarget.takeDamage(spellDamage);
+                                System.out.println(
+                                    "Player " + player.getId() +
+                                    " hits Goblin " + spellTarget.getId() +
+                                    " for " + spellDamage + " damage!"
+                                );
+
+                                if (!spellTarget.isAlive()) {
+                                    System.out.println("Goblin slain!");
+                                    goblins.remove(spellTargetIndex);
+                                    totalGoblinsKilled++;
+                                }
+                                break;
+                            }
 
                         default:
                             System.out.println("Invalid choice. Turn skipped.");
@@ -165,6 +197,8 @@ public class Main {
             System.out.println("1) Heal all players (+2 HP)");
             System.out.println("2) Gain 1 healing potion per player");
             System.out.println("3) Upgrade weapons (+1 damage)");
+            System.out.println("4) Upgrade spell (+2 damage)");
+            System.out.println("5) Upgrade mana regen rate (+10 regen)");
             System.out.print("> ");
 
             String rewardChoice = scanner.nextLine();
@@ -185,6 +219,23 @@ public class Main {
                         p.upgradeWeapon(1);
                         System.out.println(
                             "Player " + p.getId() + " upgraded weapon! " + p.getWeaponInfo()
+                        );
+                    });
+                    break;
+                case "4":
+                    players.forEach(p -> {
+                        p.upgradeSpellDamage(2);
+                        System.out.println(
+                            "Player " + p.getId() + " upgraded spell damage! " + p.getSpellInfo()
+                        );
+                    });
+                    break;
+
+                case "5":
+                    players.forEach(p -> {
+                        p.upgradeManaRecharge(10);
+                        System.out.println(
+                            "Player " + p.getId() + " upgraded mana regen! " + p.getManaRechargeInfo()
                         );
                     });
                     break;
@@ -214,7 +265,9 @@ public class Main {
             System.out.println(
                 "Player " + p.getId() +
                 " HP: " + p.getHp() +
-                " | Potions: " + p.getPotions()
+                " | Potions: " + p.getPotions() +
+                " | Mana: " + p.getMana() + 
+                " | " + p.getManaRechargeInfo()
             );
         }
 
