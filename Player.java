@@ -1,5 +1,5 @@
 // Represents a player-controlled character.
-// Players can attack, defend, heal, and upgrade equipment.
+// Players can attack, defend, heal, cast spell, and upgrade equipment/spells.
 public class Player extends Character {
 
     // Used to assign unique IDs to players
@@ -103,6 +103,7 @@ public class Player extends Character {
         return weaponDamage;
     }
 
+    // Player's current mana
     public int getMana() {
         return this.mana;
     }
@@ -111,19 +112,30 @@ public class Player extends Character {
         this.mana = mana;
     }
 
+    // Player's current mana recharge rate
     public int getManaRecharge() {
         return this.manaRecharge;
     }
 
+    /**
+     * Sets mana recharge rate
+     * @param rechargeAmount - recharge rate that mana will be set to
+     */
     public void setManaRecharge(int rechargeAmount) {
         this.manaRecharge = rechargeAmount;
     }
 
+    /**
+     * Cost of casting a spell
+     * @return - mana cost of casting a spell
+     */
     public int getSpellCost() {
         return this.spellManaCost;
     }
 
-    // Increments the value of mana by manaRecharge every turn.
+    /**
+     * Increments player's mana by manaRechargeRate every turn, capped at 100
+     */
     public void incrementManaValue() {
 
         int currentMana = getMana();

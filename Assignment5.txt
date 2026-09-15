@@ -1,0 +1,31 @@
+What I Learned:
+
+Extending from the abstract Character class is pretty interesting. There are shared traits between
+an Enemy and a Player that are shown in the Character superclass, such as HP and the ability to defend.
+Another implementation of extending a superclass might be a Circle and a Square extending from a shape
+class. The Shape class could define an abstract method getArea(), and its implementation in Square
+would be length*length whereas its implementation in Circle would be pi*radius*radius.
+
+Regarding the changes I made to the Player, if I also wanted goblins to be able to cast spells, I 
+would have added the mana and mana recharge rate variables to the Character class instead of the 
+\Player class, along with the functions that allow spells to be cast and mana to regenerate. 
+Instead, I decided to make spellcasting strictly available to the player.
+
+https://www.w3schools.com/Java/ref_keyword_extends.asp
+https://codegym.cc/groups/posts/java-extends-keyword-with-examples
+
+
+Program Modifications:
+
+I added a spell attack, a mana variable, and a mana recharge rate variable.
+A spell has double the attack of a sword, but costs 50 mana to cast.
+When upgraded, it deals +2 extra damage instad of +1.
+When mana regen rate is upgraded, +10 mana is recharged per turn (max mana is 100).
+
+I wanted to give the player more tools than just sword and defense.
+Most of the challenge came from updating the output - I added a few extra cases to the switch
+statements & a boolean that controls whether or not the player is able to cast a spell, adjusting
+output accordingly. Display output was also changed, so the player knows how much mana they have,
+and how much mana they regenerate per turn.
+Implementing the mana and spellcasting logic within the player class was comparatively easy, as
+I didn't have to navigate a rather dense sequence of output statements.
